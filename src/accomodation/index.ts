@@ -5,7 +5,7 @@ import { AccomodationModel } from "./model";
 // ************ GET ************
 router.get("/", async (req, res) => {
   try {
-    const accomodations = await AccomodationModel.find();
+    const accomodations = await AccomodationModel.find().populate({path:"destination"});
     res.send(accomodations);
   } catch (error) {
     console.log(error);
