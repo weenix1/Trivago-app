@@ -6,7 +6,7 @@ import { AccomodationModel } from "./model";
 router.get("/", async (req, res) => {
   try {
     const accomodations = await AccomodationModel.find().populate({path:"destination"});
-    res.send(accomodations);
+    res.status(200).send(accomodations);
   } catch (error) {
     console.log(error);
   }
@@ -16,9 +16,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newAccomodation = await AccomodationModel.create(req.body);
-    res.send(newAccomodation);
+    res.status(201).send(newAccomodation);
   } catch (error) {
-    console.log(error);
+    res.status(400)
   }
 });
 
@@ -60,9 +60,11 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const deletedAccomodation = await AccomodationModel.findByIdAndDelete(id);
+    const deletedAccomodation = await AccomodationModel.findByIdAndDelete(
+			id,
+		);
     if (deletedAccomodation) {
-      res.status(200).send(deletedAccomodation);
+      res.status(404);
     } else {
       res.status(404).send("Id was not found");
     }
