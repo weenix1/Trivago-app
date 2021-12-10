@@ -56,7 +56,9 @@ describe('Testing the app endpoints', () => {
 	const destinationsUpdate = {
 		destinations: [{ city: 'new city' }],
 	};
+
 	let _id: string;
+
 	it('checking GET /accommodation endpoint', async () => {
 		const response = await request.get('/accomodation');
 		expect(response.status).toBe(200);
@@ -77,9 +79,7 @@ describe('Testing the app endpoints', () => {
 	});
 
 	it('checking the GET /accommodation:id returns object  with a valid id', async () => {
-		// const newAccommodation = await AccomodationModel.create(validAccommodation);
-		// const { _id } = newAccommodation;
-		const response = await request.get(`/accomodation/${_id}`);
+		const response = await request.get('/accomodation/' + _id);
 		expect(response.status).toBe(200);
 		expect(response.body).toBeDefined();
 	});
@@ -92,8 +92,6 @@ describe('Testing the app endpoints', () => {
 	});
 
 	it('checking a valid PUT /accommodation/:id name update request gets executed correctly', async () => {
-		// const newAccommodation = await AccomodationModel.create(validAccommodation);
-		// const { _id } = newAccommodation;
 		const response = await request.put('/accomodation/' + _id);
 		expect(response.status).toBe(200);
 		expect(response.body).toBeDefined();
