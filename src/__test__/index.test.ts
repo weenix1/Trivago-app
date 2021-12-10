@@ -99,7 +99,7 @@ describe('Testing the app endpoints', () => {
 
 	it('checking a valid PUT /accommodation/:id name update request gets 404 without a valid id', async () => {
 		const response = await request
-			.put(`/accomodation/444444444444444444444444`)
+			.put(`/accomodation/999999999999999999999999`)
 			.send(nameUpdate);
 		expect(response.status).toBe(404);
 	});
