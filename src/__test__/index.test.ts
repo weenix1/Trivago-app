@@ -69,6 +69,9 @@ describe('Testing the app endpoints', () => {
 			.post('/accomodation')
 			.send(validAccommodation);
 		expect(response.status).toBe(201);
+		expect(response.body._id.length).toBe(24);
+
+		_id = response.body._id;
 	});
 
 	it('checking the POST /accommodation endpoint returns  404 on an invalid accommodation type', async () => {
@@ -106,7 +109,7 @@ describe('Testing the app endpoints', () => {
 
 	it('checking the DELETE /accommodation/:id ', async () => {
 		const response = await request.delete('/accomodation/' + _id);
-		expect(response.status).toBe(404);
+		expect(response.status).toBe(204);
 	});
 
 	it('checking the DELETE /accomodation/:id returns a 404 without a valid id', async () => {
