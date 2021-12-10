@@ -64,6 +64,12 @@ describe('Testing the app endpoints', () => {
 		expect(response.body.description).toBeDefined();
 		expect(response.body.destinations).toBeDefined();
 	});
+	it('should check that the POST /accommodation endpoint returns  404 on an invalid accommodation type', async () => {
+		const response = await request
+			.post('/accommodation')
+			.send(!validAccommodation);
+		expect(response.status).toBe(400);
+	});
 
 	it('should check that the GET /accommodation:id returns a valid product with a valid id', async () => {
 		const response = await request.get(`/accommodation/${_id}`);
@@ -86,7 +92,7 @@ describe('Testing the app endpoints', () => {
 		const response = await request
 			.put(`/accommodation/${_id}`)
 			.send(nameUpdate);
-		expect(response.status).toBe(200);
+		expect(response.status).toBe(204);
 		expect(response.body.name).toBe(nameUpdate.name);
 		expect(typeof response.body.name).toBe('string');
 	});
@@ -102,7 +108,7 @@ describe('Testing the app endpoints', () => {
 		const response = await request
 			.put(`/accommodation/${_id}`)
 			.send(maxGuestsUpdate);
-		expect(response.status).toBe(200);
+		expect(response.status).toBe(204);
 		expect(response.body.maxGuests).toBe(maxGuestsUpdate.maxGuests);
 		expect(typeof response.body.maxGuests).toBe('string');
 	});
@@ -118,7 +124,7 @@ describe('Testing the app endpoints', () => {
 		const response = await request
 			.put(`/accommodation/${_id}`)
 			.send(destinationsUpdate);
-		expect(response.status).toBe(200);
+		expect(response.status).toBe(204);
 		expect(response.body.destinations).toBe(destinationsUpdate.destinations);
 		expect(typeof response.body.destinations).toBe('string');
 	});
@@ -134,7 +140,7 @@ describe('Testing the app endpoints', () => {
 		const response = await request
 			.put(`/accommodation/${_id}`)
 			.send(descriptionUpdate);
-		expect(response.status).toBe(200);
+		expect(response.status).toBe(204);
 		expect(response.body.description).toBe(descriptionUpdate.description);
 		expect(typeof response.body.description).toBe('string');
 	});
