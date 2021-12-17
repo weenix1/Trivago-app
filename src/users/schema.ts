@@ -8,7 +8,7 @@ export interface Iuser {
   surName: string;
   firstName: string;
   email: string;
-  password: string | number;
+  password: string;
   role: string;
 }
 

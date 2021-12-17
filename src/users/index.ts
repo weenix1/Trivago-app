@@ -4,21 +4,18 @@ import { Request, Response, NextFunction } from "express";
 import { JWTAuthenticate } from "../auth/tools";
 import { JWTAuthMiddleware } from "../auth/token";
 import { adminOnlyMiddleware } from "../auth/admin";
+import bcrypt from "bcrypt";
 
 import createHttpError = require("http-errors");
 
-declare global {
+/* declare global {
   namespace Express {
     interface Request {
       user?: Iuser;
     }
   }
 }
-
-interface credentials{
-  email:string
-  password:string
-}
+ */
 
 const usersRouter = express.Router();
 
@@ -87,6 +84,21 @@ usersRouter.put(
   }
 );
 
+const checkCredentials = async (email: string, plainPw: string) => {
+  const user = await UserModel.findOne({ email });
+
+  if (user) {
+    const isMatch = await bcrypt.compare(plainPw, user.password);
+    if (isMatch) {
+      console.log("matched!!!!");
+      return user;
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
 
 usersRouter.post(
   "/login",
@@ -96,7 +108,7 @@ usersRouter.post(
       const { email, password } = req.body;
 
       // 2. Verify credentials
-      const user = await UserModel.checkCredentials(email, password)
+      const user = await checkCredentials(email, password);
 
       if (user) {
         // 3. If credentials are fine we are going to generate an access token
@@ -110,6 +122,8 @@ usersRouter.post(
       next(error);
     }
   }
+);
+
 /* usersRouter.delete(
   "/me",
   JWTAuthMiddleware,
@@ -162,8 +176,6 @@ usersRouter.delete(
     }
   }
 );
-
-
-); */
+*/
 
 export default usersRouter;
